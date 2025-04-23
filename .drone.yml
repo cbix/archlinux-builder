@@ -1,0 +1,84 @@
+---
+kind: pipeline
+type: docker
+name: amd64
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: archlinux-builder
+    image: plugins/docker
+    settings:
+      repo: cbix/archlinux-builder
+      tags: latest-amd64
+      dockerfile: docker/builder/Dockerfile.amd64
+      username: cbix
+      password:
+        from_secret: docker-pass
+
+trigger:
+  ref:
+    include:
+      - refs/heads/main
+      - refs/tags/**
+
+---
+kind: pipeline
+type: docker
+name: arm64
+
+platform:
+  os: linux
+  arch: arm64
+
+steps:
+  - name: archlinux-builder
+    image: plugins/docker
+    settings:
+      repo: cbix/archlinux-builder
+      tags: latest-arm64
+      dockerfile: docker/builder/Dockerfile.arm64
+      username: cbix
+      password:
+        from_secret: docker-pass
+
+trigger:
+  ref:
+    include:
+      - refs/heads/main
+      - refs/tags/**
+
+volumes:
+  - name: docker
+    temp: {}
+
+---
+kind: pipeline
+type: docker
+name: archlinux-builder manifest
+
+steps:
+  - name: archlinux-builder manifest
+    image: plugins/manifest
+    settings:
+      target: cbix/archlinux-builder:latest
+      template: cbix/archlinux-builder:latest-ARCH
+      platforms:
+        - linux/amd64
+        - linux/arm64
+      ignore_missing: true
+      username: cbix
+      password:
+        from_secret: docker-pass
+
+depends_on:
+  - amd64
+  - arm64
+
+trigger:
+  ref:
+    include:
+      - refs/heads/main
+      - refs/tags/**

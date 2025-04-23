@@ -1,0 +1,10 @@
+FROM archlinux/archlinux:base-devel
+RUN useradd -m builder
+RUN echo "%builder ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/builder-sudo
+WORKDIR /home/builder
+ENV BUILDDIR=/home/builder/build \
+    PKGDEST=/home/builder/packages \
+		SRCDEST=/home/builder/sources \
+		SRCPKGDEST=/home/builder/srcpackages \
+		LOGDEST=/home/builder/logs
+USER builder
