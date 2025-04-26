@@ -14,15 +14,20 @@ steps:
       repo: cbix/archlinux-builder
       tags: latest-amd64
       dockerfile: docker/builder/Dockerfile.amd64
+      platform: linux/amd64
       username: cbix
       password:
         from_secret: docker-pass
 
 trigger:
-  ref:
-    include:
-      - refs/heads/main
-      - refs/tags/**
+  event:
+    - push
+    - cron
+  branch:
+    - main
+  cron:
+    - ""
+    - docker
 
 ---
 kind: pipeline
@@ -40,19 +45,20 @@ steps:
       repo: cbix/archlinux-builder
       tags: latest-arm64
       dockerfile: docker/builder/Dockerfile.arm64
+      platform: linux/arm64
       username: cbix
       password:
         from_secret: docker-pass
 
 trigger:
-  ref:
-    include:
-      - refs/heads/main
-      - refs/tags/**
-
-volumes:
-  - name: docker
-    temp: {}
+  event:
+    - push
+    - cron
+  branch:
+    - main
+  cron:
+    - ""
+    - docker
 
 ---
 kind: pipeline
@@ -78,7 +84,11 @@ depends_on:
   - arm64
 
 trigger:
-  ref:
-    include:
-      - refs/heads/main
-      - refs/tags/**
+  event:
+    - push
+    - cron
+  branch:
+    - main
+  cron:
+    - ""
+    - docker
