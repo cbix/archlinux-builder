@@ -26,7 +26,6 @@ steps:
       tags: latest-amd64
       target: archlinux-builder-plugin
       dry_run: ${DRONE_PULL_REQUEST:+true}
-      cache_from: cbix/archlinux-builder
       platform: linux/amd64
       username: cbix
       password:
@@ -71,7 +70,6 @@ steps:
       tags: latest-arm64
       target: archlinux-builder-plugin
       dry_run: ${DRONE_PULL_REQUEST:+true}
-      cache_from: cbix/archlinux-builder
       platform: linux/arm64
       username: cbix
       password:
