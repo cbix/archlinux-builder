@@ -13,7 +13,20 @@ steps:
     settings:
       repo: cbix/archlinux-builder
       tags: latest-amd64
-      dockerfile: docker/builder/Dockerfile.amd64
+      target: archlinux-builder
+      dry_run: ${DRONE_PULL_REQUEST:+true}
+      platform: linux/amd64
+      username: cbix
+      password:
+        from_secret: docker-pass
+  - name: archlinux-builder-plugin
+    image: plugins/docker
+    settings:
+      repo: cbix/archlinux-builder-plugin
+      tags: latest-amd64
+      target: archlinux-builder-plugin
+      dry_run: ${DRONE_PULL_REQUEST:+true}
+      cache_from: cbix/archlinux-builder
       platform: linux/amd64
       username: cbix
       password:
@@ -22,6 +35,7 @@ steps:
 trigger:
   event:
     - push
+    - pull_request
     - cron
   branch:
     - main
@@ -44,7 +58,20 @@ steps:
     settings:
       repo: cbix/archlinux-builder
       tags: latest-arm64
-      dockerfile: docker/builder/Dockerfile.arm64
+      target: archlinux-builder
+      dry_run: ${DRONE_PULL_REQUEST:+true}
+      platform: linux/arm64
+      username: cbix
+      password:
+        from_secret: docker-pass
+  - name: archlinux-builder-plugin
+    image: plugins/docker
+    settings:
+      repo: cbix/archlinux-builder-plugin
+      tags: latest-arm64
+      target: archlinux-builder-plugin
+      dry_run: ${DRONE_PULL_REQUEST:+true}
+      cache_from: cbix/archlinux-builder
       platform: linux/arm64
       username: cbix
       password:
@@ -53,6 +80,7 @@ steps:
 trigger:
   event:
     - push
+    - pull_request
     - cron
   branch:
     - main
