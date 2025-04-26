@@ -8,24 +8,13 @@ platform:
   arch: amd64
 
 steps:
-  - name: test subst
-    image: alpine
-    environment:
-      FOO: ${DRONE_PULL_REQUEST:+true}
-      BAR: ${DRONE_BAR:+true}
-      BAZ: ${DRONE_BUILD_EVENT/pull_request/true}${DRONE_BUILD_EVENT/push/false}
-    commands:
-      - env
-      - echo "[$${FOO}]"
-      - echo "[$${BAR}]"
-      - echo "[$${BAZ}]"
   - name: archlinux-builder
     image: plugins/docker
     settings:
       repo: cbix/archlinux-builder
       tags: latest-amd64
       target: archlinux-builder
-      dry_run: ${DRONE_PULL_REQUEST:+true}
+      dry_run: ${DRONE_PULL_REQUEST/.+/true}
       platform: linux/amd64
       username: cbix
       password:
@@ -36,7 +25,7 @@ steps:
       repo: cbix/archlinux-builder-plugin
       tags: latest-amd64
       target: archlinux-builder-plugin
-      dry_run: ${DRONE_PULL_REQUEST:+true}
+      dry_run: ${DRONE_PULL_REQUEST/.+/true}
       cache_from: cbix/archlinux-builder
       platform: linux/amd64
       username: cbix
@@ -70,7 +59,7 @@ steps:
       repo: cbix/archlinux-builder
       tags: latest-arm64
       target: archlinux-builder
-      dry_run: ${DRONE_PULL_REQUEST:+true}
+      dry_run: ${DRONE_PULL_REQUEST/.+/true}
       platform: linux/arm64
       username: cbix
       password:
@@ -81,7 +70,7 @@ steps:
       repo: cbix/archlinux-builder-plugin
       tags: latest-arm64
       target: archlinux-builder-plugin
-      dry_run: ${DRONE_PULL_REQUEST:+true}
+      dry_run: ${DRONE_PULL_REQUEST/.+/true}
       cache_from: cbix/archlinux-builder
       platform: linux/arm64
       username: cbix
