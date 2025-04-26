@@ -81,14 +81,26 @@ trigger:
 ---
 kind: pipeline
 type: docker
-name: archlinux-builder manifest
+name: manifest
 
 steps:
-  - name: archlinux-builder manifest
+  - name: archlinux-builder
     image: plugins/manifest
     settings:
       target: cbix/archlinux-builder:latest
       template: cbix/archlinux-builder:latest-ARCH
+      platforms:
+        - linux/amd64
+        - linux/arm64
+      ignore_missing: true
+      username: cbix
+      password:
+        from_secret: docker-pass
+  - name: archlinux-builder-plugin
+    image: plugins/manifest
+    settings:
+      target: cbix/archlinux-builder-plugin:latest
+      template: cbix/archlinux-builder-plugin:latest-ARCH
       platforms:
         - linux/amd64
         - linux/arm64
