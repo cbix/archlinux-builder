@@ -12,9 +12,11 @@ steps:
     image: alpine
     environment:
       FOO: ${DRONE_PULL_REQUEST:+true}
+      BAR: ${DRONE_BAR:+true}
     commands:
       - env
       - echo "[$${FOO}]"
+      - echo "[$${BAR}]"
   - name: archlinux-builder
     image: plugins/docker
     settings:
