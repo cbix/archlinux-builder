@@ -14,7 +14,6 @@ steps:
       repo: cbix/archlinux-builder
       tags: latest-amd64
       target: archlinux-builder
-      platform: linux/amd64
       username: cbix
       password:
         from_secret: docker-pass
@@ -25,7 +24,6 @@ steps:
       tags: latest-amd64
       target: archlinux-builder-plugin
       cache_from: cbix/archlinux-builder
-      platform: linux/amd64
       username: cbix
       password:
         from_secret: docker-pass
@@ -56,7 +54,6 @@ steps:
       repo: cbix/archlinux-builder
       tags: latest-arm64
       target: archlinux-builder
-      platform: linux/arm64
       username: cbix
       password:
         from_secret: docker-pass
@@ -67,7 +64,6 @@ steps:
       tags: latest-arm64
       target: archlinux-builder-plugin
       cache_from: cbix/archlinux-builder
-      platform: linux/arm64
       username: cbix
       password:
         from_secret: docker-pass
