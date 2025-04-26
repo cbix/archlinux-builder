@@ -8,6 +8,13 @@ platform:
   arch: amd64
 
 steps:
+  - name: test subst
+    image: alpine
+    environment:
+      FOO: ${DRONE_PULL_REQUEST:+true}
+    commands:
+      - env
+      - echo "[$${FOO}]"
   - name: archlinux-builder
     image: plugins/docker
     settings:
